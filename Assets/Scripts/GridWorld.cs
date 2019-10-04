@@ -108,6 +108,19 @@ public class GridWorld : MonoBehaviour {
         return ItemCountInCell(position) == 0;
     }
 
+    /// If one can be found, returns the position of a cell on the specified side which does not
+    /// contain the specified type of dweller. If none can be found, null is returned instead.
+    public CellPosition FindRandomCellWithout(DwellerType type, GridClass side) {
+        List<CellPosition> allCells = ListAllCellsOnSide(side);
+        allCells.Shuffle();
+        foreach (CellPosition position in allCells) {
+            if (!IsTypeInCell(position, type)) {
+                return position;
+            }
+        }
+        return null;
+    }
+
     /// This method should only be used by GridDweller. Use that component to represent something on
     /// the grid. Never interact with this method directly. Throws an exception if trying to set
     /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
@@ -137,6 +150,17 @@ public class GridWorld : MonoBehaviour {
             for (uint z = 0; z < length; z++) {
                 result.Add(new CellPosition(x, z, GridClass.PlayerGrid));
                 result.Add(new CellPosition(x, z, GridClass.EnemyGrid));
+            }
+        }
+        return result;
+    }
+
+    /// Returns a list containing one CellPosition for every cell on the specified side.
+    public List<CellPosition> ListAllCellsOnSide(GridClass side) {
+        List<CellPosition> result = new List<CellPosition>();
+        for (uint x = 0; x < width; x++) {
+            for (uint z = 0; z < length; z++) {
+                result.Add(new CellPosition(x, z, side));
             }
         }
         return result;

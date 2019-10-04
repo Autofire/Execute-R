@@ -15,6 +15,12 @@ public class GridDweller : MonoBehaviour {
         dwellsOn = GridWorld.getInstance();
     }
 
+    void StartAt(CellPosition position) {
+        Start();
+        MoveToCell(position);
+        SyncRealPositionToCellPosition();
+    }
+
     // Update is called once per frame
     void Update() {
         animTimer += Time.deltaTime;
