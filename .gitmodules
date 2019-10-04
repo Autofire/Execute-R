@@ -1,0 +1,9 @@
+[submodule "Assets/_Imported/ReachBeyond/ScriptSupport"]
+	path = Assets/_Imported/ReachBeyond/ScriptSupport
+	url = https://github.com/ReachBeyond/ScriptSupport.git
+[submodule "Assets/_Imported/ReachBeyond/VariableObjects"]
+	path = Assets/_Imported/ReachBeyond/VariableObjects
+	url = https://github.com/ReachBeyond/VariableObjects.git
+[submodule "Assets/_Imported/ReachBeyond/EventObjects"]
+	path = Assets/_Imported/ReachBeyond/EventObjects
+	url = https://github.com/ReachBeyond/EventObjects.git
