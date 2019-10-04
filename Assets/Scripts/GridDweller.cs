@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridDweller : MonoBehaviour {
-    public CellContents type = CellContents.Player;
+    public CellItem type = CellItem.Player;
     public GridWorld dwellsOn;
     private CellPosition position = null;
 
     // Start is called before the first frame update
     void Start() {
         SyncRealPositionToCellPosition();
-        dwellsOn.SetContentsInCell(position, type);
     }
 
     // Update is called once per frame
@@ -31,19 +30,18 @@ public class GridDweller : MonoBehaviour {
     /// moves this object's cell position to that cell. Call this if you want manual changes to the
     /// object's position to be reflected in the game logic.
     public void SyncCellPositionToRealPosition() {
-        SafeMoveToCell(dwellsOn.GridizeRealPosition(gameObject.transform.position));
+        MoveToCell(dwellsOn.GridizeRealPosition(gameObject.transform.position));
     }
 
     /// Tries to move to a different cell on the grid. Note that this does NOT change the REAL
     /// position of the object. It will appear in the same position in the world. This method just
-    /// changes which cell it is marked as occupying. If the selected cell is not empty, an 
-    /// exception will be thrown detailing exactly what lead to that error occuring. If null is 
-    /// passed as newPosition, the object will be effectively 'removed' from the grid world. Moving
-    /// to a non-null cell will 'place' the object back in the world.
+    /// changes which cell it is marked as occupying. If null is passed as newPosition, the object 
+    /// will be effectively 'removed' from the grid world. Moving to a non-null cell will 'place' 
+    /// the object back in the world.
     public void MoveToCell(CellPosition newPosition) {
-        if (position != null) dwellsOn.SetContentsInCell(position, CellContents.Empty);
+        if (position != null) dwellsOn.RemoveItemFromCell(position, type);
         position = newPosition;
-        if (position != null) dwellsOn.SetContentsInCell(position, type);
+        if (position != null) dwellsOn.AddItemToCell(position, type);
     }
 
     /// Like MoveToCell(CellPosition), but moves to a different position on whatever side of the
@@ -51,19 +49,5 @@ public class GridDweller : MonoBehaviour {
     /// try to move to the cell on the enemy side with the specified coordinates.
     public void MoveToCell(uint x, uint z) {
         MoveToCell(new CellPosition(x, z, position.side));
-    }
-
-    /// Like MoveToCell(CellPosition), but returns false in place of throwing an exception.
-    public bool SafeMoveToCell(CellPosition newPosition) {
-        if (newPosition != null && !dwellsOn.IsCellEmpty(newPosition)) {
-            return false;
-        }
-        MoveToCell(newPosition);
-        return true;
-    }
-
-    /// Like MoveToCell(uint, uint), but returns false in place of throwing an exception.
-    public bool SafeMoveToCell(uint x, uint z) {
-        return SafeMoveToCell(new CellPosition(x, z, position.side));
     }
 }

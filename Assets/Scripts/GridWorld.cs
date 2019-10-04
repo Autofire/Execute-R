@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public enum CellContents {
+public enum CellItem {
     Empty,
     Player,
     Enemy
@@ -42,39 +43,24 @@ public class InvalidCellPositionException : Exception {
     { }
 }
 
-public class CellAlreadyOccupiedException: Exception {
-    public CellAlreadyOccupiedException(
-        CellPosition position, 
-        CellContents type, 
-        CellContents existing
-    ) : base(String.Format(
-            "Tried to place a {0} on ({1}, {2}) where there was already a {3}.", 
-            type,
-            position.x, 
-            position.z, 
-            existing
-        ))
-    { }
-}
-
 /// Holds data for the in-game grid, like which squares are occupied. It is not responsible for 
 /// drawing this information inside the game. Instead, other objects can use helper methods from
 /// this class to determine which grid squares are occupied and present graphics accordingly.
 public class GridWorld : MonoBehaviour {
     public float cellSize = 1.0f, neutralZone = 4.0f;
     public int width = 4, length = 4;
-    private CellContents[,] playerSideContents, enemySideContents;
+    private List<CellItem>[,] playerSideContents, enemySideContents;
 
     /// We need to put this in Awake() because GridDwellers will try and place themselves on the
     /// grid with Start(), so the arrays that hold that data needs to be initialized before any 
     /// Start() methods run.
     void Awake() {
-        playerSideContents = new CellContents[width, length];
-        enemySideContents = new CellContents[width, length];
+        playerSideContents = new List<CellItem>[width, length];
+        enemySideContents = new List<CellItem>[width, length];
         for (uint x = 0; x < width; x++) {
             for (uint z = 0; z < length; z++) {
-                playerSideContents[x, z] = CellContents.Empty;
-                enemySideContents[x, z] = CellContents.Empty;
+                playerSideContents[x, z] = new List<CellItem>();
+                enemySideContents[x, z] = new List<CellItem>();
             }
         }
     }
@@ -84,36 +70,51 @@ public class GridWorld : MonoBehaviour {
         return cellPosition.x < width && cellPosition.z < length;
     }
 
-    public CellContents GetContentsInCell(CellPosition position) {
+    public int ItemCountInCell(CellPosition position) {
         if (!IsValid(position)) {
             throw new InvalidCellPositionException(position, this);
         }
         if (position.side == GridClass.PlayerGrid) {
-            return playerSideContents[position.x, position.z];
+            return playerSideContents[position.x, position.z].Count;
         } else {
-            return enemySideContents[position.x, position.z];
+            return enemySideContents[position.x, position.z].Count;
+        }
+    }
+
+    public bool IsItemInCell(CellPosition position, CellItem item) {
+        if (!IsValid(position)) {
+            throw new InvalidCellPositionException(position, this);
+        }
+        if (position.side == GridClass.PlayerGrid) {
+            return playerSideContents[position.x, position.z].Contains(item);
+        } else {
+            return enemySideContents[position.x, position.z].Contains(item);
         }
     }
 
     public bool IsCellEmpty(CellPosition position) {
-        return GetContentsInCell(position) == CellContents.Empty;
+        return ItemCountInCell(position) == 0;
     }
 
     /// This method should only be used by GridDweller. Use that component to represent something on
     /// the grid. Never interact with this method directly. Throws an exception if trying to set
     /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
-    public void SetContentsInCell(CellPosition position, CellContents contents) {
-        CellContents existing = GetContentsInCell(position);
-        if (
-            existing == CellContents.Empty && contents == CellContents.Empty
-            || existing != CellContents.Empty && contents != CellContents.Empty
-        ) {
-            throw new CellAlreadyOccupiedException(position, contents, existing);
-        }
+    public void AddItemToCell(CellPosition position, CellItem item) {
         if (position.side == GridClass.PlayerGrid) {
-            playerSideContents[position.x, position.z] = contents;
+            playerSideContents[position.x, position.z].Add(item);
         } else {
-            enemySideContents[position.x, position.z] = contents;
+            enemySideContents[position.x, position.z].Add(item);
+        }
+    }
+
+    /// This method should only be used by GridDweller. Use that component to represent something on
+    /// the grid. Never interact with this method directly. Throws an exception if trying to set
+    /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
+    public void RemoveItemFromCell(CellPosition position, CellItem item) {
+        if (position.side == GridClass.PlayerGrid) {
+            playerSideContents[position.x, position.z].Remove(item);
+        } else {
+            enemySideContents[position.x, position.z].Remove(item);
         }
     }
 
@@ -201,12 +202,13 @@ public class GridWorld : MonoBehaviour {
         if (playerSideContents != null) {
             for (int x = 0; x < width; x++) {
                 for (int z = 0; z < length; z++) {
-                    CellContents c = playerSideContents[x, z];
-                    if (c == CellContents.Player) DrawDiamondGizmo(
-                        playerGridCorner + cellWidth * x + cellLength * z, Color.blue
-                    ); else if (c == CellContents.Enemy) DrawDiamondGizmo(
-                        playerGridCorner + cellWidth * x + cellLength * z, Color.red
-                    );
+                    Vector3 pos = playerGridCorner + cellWidth * x + cellLength * z;
+                    pos += (Vector3.right + Vector3.forward) * (cellSize / 2);
+                    foreach (CellItem item in playerSideContents[x, z]) {
+                        DrawItemGizmo(pos, item);
+                        // Stack multiple items on the same cell.
+                        pos += Vector3.up * 0.5f;
+                    }
                 }
             }
         }
@@ -231,16 +233,29 @@ public class GridWorld : MonoBehaviour {
                 enemyGridCorner + cellLength * z + totalWidth
             );
         }
+        if (enemySideContents != null) {
+            for (int x = 0; x < width; x++) {
+                for (int z = 0; z < length; z++) {
+                    Vector3 pos = enemyGridCorner + cellWidth * x + cellLength * z;
+                    pos += (Vector3.right + Vector3.forward) * (cellSize / 2);
+                    foreach (CellItem item in enemySideContents[x, z]) {
+                        DrawItemGizmo(pos, item);
+                        // Stack multiple items on the same cell.
+                        pos += Vector3.up * 0.5f;
+                    }
+                }
+            }
+        }
     }
 
-    void DrawDiamondGizmo(Vector3 position, Color color) {
-        Vector3 x10 = Vector3.right * cellSize, z10 = Vector3.forward * cellSize;
-        Vector3 x2 = x10 / 5, x5 = x10 / 2, z2 = z10 / 5, z5 = z10 / 2;
+    void DrawItemGizmo(Vector3 position, CellItem item) {
+        if (item == CellItem.Player) {
+            Gizmos.color = Color.blue;
+        } else if (item == CellItem.Enemy) {
+            Gizmos.color = Color.red;
+        }
 
-        Gizmos.color = color;
-        Gizmos.DrawLine(position + x2 + z5, position + x5 + z10 - z2);
-        Gizmos.DrawLine(position + x10 - x2 + z5, position + x5 + z10 - z2);
-        Gizmos.DrawLine(position + x10 - x2 + z5, position + x5 + z2);
-        Gizmos.DrawLine(position + x2 + z5, position + x5 + z2);
+        Gizmos.DrawLine(position, position + Vector3.up * 5);
+        Gizmos.DrawCube(position + Vector3.up * 3, new Vector3(0.2f, 0.2f, 0.2f));
     }
 }
