@@ -118,6 +118,18 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
+    /// Returns a list containing one CellPosition for every cell in the grid world.
+    public List<CellPosition> ListAllCells() {
+        List<CellPosition> result = new List<CellPosition>();
+        for (uint x = 0; x < width; x++) {
+            for (uint z = 0; z < length; z++) {
+                result.Add(new CellPosition(x, z, GridClass.PlayerGrid));
+                result.Add(new CellPosition(x, z, GridClass.EnemyGrid));
+            }
+        }
+        return result;
+    }
+
     /// Returns a Vector3 indicating the real-world position of the center of the specified cell.
     /// Throws an InvalidCellPositionException if the provided grid position is outside the bounds
     /// of this grid world.
