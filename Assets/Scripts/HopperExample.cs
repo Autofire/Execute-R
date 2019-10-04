@@ -32,9 +32,6 @@ public class HopperExample : MonoBehaviour {
 
     void Start() {
         dweller = GetComponent<GridDweller>();
-        dweller.MoveToCell(patrol[patrolStep]);
-        dweller.SyncRealPositionToCellPosition();
-        patrolStep++;
     }
 
     /// Roots at x=0 and x=1, vertex at (0.5, 1.0).

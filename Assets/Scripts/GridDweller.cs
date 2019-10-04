@@ -10,7 +10,6 @@ public class GridDweller : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         dwellsOn = GridWorld.getInstance();
-        SyncRealPositionToCellPosition();
     }
 
     // Update is called once per frame
