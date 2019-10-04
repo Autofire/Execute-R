@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridDweller : MonoBehaviour {
-    public CellItem type = CellItem.Player;
+    public DwellerType type = DwellerType.Player;
     GridWorld dwellsOn;
     private CellPosition position = null;
 
@@ -39,9 +39,10 @@ public class GridDweller : MonoBehaviour {
     /// will be effectively 'removed' from the grid world. Moving to a non-null cell will 'place' 
     /// the object back in the world.
     public void MoveToCell(CellPosition newPosition) {
-        if (position != null) dwellsOn.RemoveItemFromCell(position, type);
+        if (newPosition == position) return;
+        if (position != null) dwellsOn.RemoveDwellerFromCell(position, this);
         position = newPosition;
-        if (position != null) dwellsOn.AddItemToCell(position, type);
+        if (position != null) dwellsOn.AddDwellerToCell(position, this);
     }
 
     /// Like MoveToCell(CellPosition), but moves to a different position on whatever side of the

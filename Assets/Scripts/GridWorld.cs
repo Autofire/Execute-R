@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CellItem {
+public enum DwellerType {
     Player,
     Enemy
 }
@@ -48,7 +48,7 @@ public class InvalidCellPositionException : Exception {
 public class GridWorld : MonoBehaviour {
     public float cellSize = 1.0f, neutralZone = 4.0f;
     public int width = 4, length = 4;
-    private List<CellItem>[,] playerSideContents, enemySideContents;
+    private List<GridDweller>[,] playerSideContents, enemySideContents;
     private static GridWorld instance;
 
     public static GridWorld getInstance() {
@@ -63,12 +63,12 @@ public class GridWorld : MonoBehaviour {
     /// Start() methods run.
     void Awake() {
         instance = this;
-        playerSideContents = new List<CellItem>[width, length];
-        enemySideContents = new List<CellItem>[width, length];
+        playerSideContents = new List<GridDweller>[width, length];
+        enemySideContents = new List<GridDweller>[width, length];
         for (uint x = 0; x < width; x++) {
             for (uint z = 0; z < length; z++) {
-                playerSideContents[x, z] = new List<CellItem>();
-                enemySideContents[x, z] = new List<CellItem>();
+                playerSideContents[x, z] = new List<GridDweller>();
+                enemySideContents[x, z] = new List<GridDweller>();
             }
         }
     }
@@ -89,14 +89,18 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
-    public bool IsItemInCell(CellPosition position, CellItem item) {
+    public bool IsTypeInCell(CellPosition position, DwellerType type) {
         if (!IsValid(position)) {
             throw new InvalidCellPositionException(position, this);
         }
         if (position.side == GridClass.PlayerGrid) {
-            return playerSideContents[position.x, position.z].Contains(item);
+            return playerSideContents[position.x, position.z].Exists(
+                delegate(GridDweller dweller) { return dweller.type == type; }
+            );
         } else {
-            return enemySideContents[position.x, position.z].Contains(item);
+            return enemySideContents[position.x, position.z].Exists(
+                delegate(GridDweller dweller) { return dweller.type == type; }
+            );
         }
     }
 
@@ -107,22 +111,22 @@ public class GridWorld : MonoBehaviour {
     /// This method should only be used by GridDweller. Use that component to represent something on
     /// the grid. Never interact with this method directly. Throws an exception if trying to set
     /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
-    public void AddItemToCell(CellPosition position, CellItem item) {
+    public void AddDwellerToCell(CellPosition position, GridDweller dweller) {
         if (position.side == GridClass.PlayerGrid) {
-            playerSideContents[position.x, position.z].Add(item);
+            playerSideContents[position.x, position.z].Add(dweller);
         } else {
-            enemySideContents[position.x, position.z].Add(item);
+            enemySideContents[position.x, position.z].Add(dweller);
         }
     }
 
     /// This method should only be used by GridDweller. Use that component to represent something on
     /// the grid. Never interact with this method directly. Throws an exception if trying to set
     /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
-    public void RemoveItemFromCell(CellPosition position, CellItem item) {
+    public void RemoveDwellerFromCell(CellPosition position, GridDweller dweller) {
         if (position.side == GridClass.PlayerGrid) {
-            playerSideContents[position.x, position.z].Remove(item);
+            playerSideContents[position.x, position.z].Remove(dweller);
         } else {
-            enemySideContents[position.x, position.z].Remove(item);
+            enemySideContents[position.x, position.z].Remove(dweller);
         }
     }
 
@@ -224,8 +228,8 @@ public class GridWorld : MonoBehaviour {
                 for (int z = 0; z < length; z++) {
                     Vector3 pos = playerGridCorner + cellWidth * x + cellLength * z;
                     pos += (Vector3.right + Vector3.forward) * (cellSize / 2);
-                    foreach (CellItem item in playerSideContents[x, z]) {
-                        DrawItemGizmo(pos, item);
+                    foreach (GridDweller dweller in playerSideContents[x, z]) {
+                        DrawDwellerTypeGizmo(pos, dweller.type);
                         // Stack multiple items on the same cell.
                         pos += Vector3.up * 0.5f;
                     }
@@ -258,8 +262,8 @@ public class GridWorld : MonoBehaviour {
                 for (int z = 0; z < length; z++) {
                     Vector3 pos = enemyGridCorner + cellWidth * x + cellLength * z;
                     pos += (Vector3.right + Vector3.forward) * (cellSize / 2);
-                    foreach (CellItem item in enemySideContents[x, z]) {
-                        DrawItemGizmo(pos, item);
+                    foreach (GridDweller dweller in enemySideContents[x, z]) {
+                        DrawDwellerTypeGizmo(pos, dweller.type);
                         // Stack multiple items on the same cell.
                         pos += Vector3.up * 0.5f;
                     }
@@ -268,10 +272,10 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
-    void DrawItemGizmo(Vector3 position, CellItem item) {
-        if (item == CellItem.Player) {
+    void DrawDwellerTypeGizmo(Vector3 position, DwellerType type) {
+        if (type == DwellerType.Player) {
             Gizmos.color = Color.blue;
-        } else if (item == CellItem.Enemy) {
+        } else if (type == DwellerType.Enemy) {
             Gizmos.color = Color.red;
         }
 

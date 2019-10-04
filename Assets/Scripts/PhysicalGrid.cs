@@ -52,7 +52,7 @@ public class PhysicalGrid : MonoBehaviour {
             CellPosition cellPosition = allCells[i];
             PhysicalCell physicalCell = physicalCells[i];
 
-            if (gridWorld.IsItemInCell(cellPosition, CellItem.Player)) {
+            if (gridWorld.IsTypeInCell(cellPosition, DwellerType.Player)) {
                 if (physicalCell.playerIndicator == null) physicalCell.playerIndicator = 
                     Instantiate(playerIndicator, physicalCell.position);
             } else {
@@ -62,7 +62,7 @@ public class PhysicalGrid : MonoBehaviour {
                 }
             }
 
-            if (gridWorld.IsItemInCell(cellPosition, CellItem.Enemy)) {
+            if (gridWorld.IsTypeInCell(cellPosition, DwellerType.Enemy)) {
                 if (physicalCell.enemyIndicator == null) physicalCell.enemyIndicator = 
                     Instantiate(enemyIndicator, physicalCell.position);
             } else {
