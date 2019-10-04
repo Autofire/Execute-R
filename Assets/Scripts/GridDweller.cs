@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GridDweller : MonoBehaviour {
     public CellContents type = CellContents.Player;
-    public CellPosition position = new CellPosition();
     public GridWorld dwellsOn;
+    private CellPosition position = null;
 
     // Start is called before the first frame update
     void Start() {
@@ -31,7 +31,7 @@ public class GridDweller : MonoBehaviour {
     /// moves this object's cell position to that cell. Call this if you want manual changes to the
     /// object's position to be reflected in the game logic.
     public void SyncCellPositionToRealPosition() {
-        position = dwellsOn.GridizeRealPosition(gameObject.transform.position);
+        SafeMoveToCell(dwellsOn.GridizeRealPosition(gameObject.transform.position));
     }
 
     /// Tries to move to a different cell on the grid. Note that this does NOT change the REAL
