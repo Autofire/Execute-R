@@ -50,13 +50,13 @@ public class HopperExample : MonoBehaviour {
             timer -= WAIT_TIME;
             mode = Mode.Animate;
             // Start the anim at the current position...
-            animationStart = dweller.dwellsOn.GetRealPosition(patrol[patrolStep]);
+            animationStart = GridWorld.getInstance().GetRealPosition(patrol[patrolStep]);
             patrolStep++;
             if (patrolStep >= patrol.Length) {
                 patrolStep = 0;
             }
             // And end it at the next position.
-            animationEnd = dweller.dwellsOn.GetRealPosition(patrol[patrolStep]);
+            animationEnd = GridWorld.getInstance().GetRealPosition(patrol[patrolStep]);
             // Remove ourselves from the grid (we will add ourselves back after the animation.)
             dweller.MoveToCell(null);
         } else if (mode == Mode.Animate && timer >= ANIMATE_TIME) {

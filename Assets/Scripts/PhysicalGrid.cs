@@ -9,7 +9,6 @@ class PhysicalCell {
 }
 
 public class PhysicalGrid : MonoBehaviour {
-    public GridWorld gridWorld;
     [Tooltip(
         "This prefab will be instantiated for every single cell in the grid. The prefab should be "
         + "1 unit big, and will be scaled to the actual size of the grid."
@@ -28,6 +27,7 @@ public class PhysicalGrid : MonoBehaviour {
 
     List<CellPosition> allCells;
     List<PhysicalCell> physicalCells = new List<PhysicalCell>();
+    GridWorld gridWorld;
 
     // Handles scaling the prefab to match the grid world's cell size.
     GameObject Instantiate(GameObject original, Vector3 position) {
@@ -37,6 +37,7 @@ public class PhysicalGrid : MonoBehaviour {
     }
 
     void Start() {
+        gridWorld = GridWorld.getInstance();
         allCells = gridWorld.ListAllCells();
         foreach (CellPosition cell in allCells) {
             PhysicalCell physicalCell = new PhysicalCell();

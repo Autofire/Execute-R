@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GridDweller : MonoBehaviour {
     public CellItem type = CellItem.Player;
-    public GridWorld dwellsOn;
+    GridWorld dwellsOn;
     private CellPosition position = null;
 
     // Start is called before the first frame update
     void Start() {
+        dwellsOn = GridWorld.getInstance();
         SyncRealPositionToCellPosition();
     }
 

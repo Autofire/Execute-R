@@ -50,11 +50,20 @@ public class GridWorld : MonoBehaviour {
     public float cellSize = 1.0f, neutralZone = 4.0f;
     public int width = 4, length = 4;
     private List<CellItem>[,] playerSideContents, enemySideContents;
+    private static GridWorld instance;
+
+    public static GridWorld getInstance() {
+        if (instance == null) {
+            throw new NullReferenceException("No grid world exists in this level.");
+        }
+        return instance;
+    }
 
     /// We need to put this in Awake() because GridDwellers will try and place themselves on the
     /// grid with Start(), so the arrays that hold that data needs to be initialized before any 
     /// Start() methods run.
     void Awake() {
+        instance = this;
         playerSideContents = new List<CellItem>[width, length];
         enemySideContents = new List<CellItem>[width, length];
         for (uint x = 0; x < width; x++) {
