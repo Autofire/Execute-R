@@ -25,11 +25,16 @@ public class PhysicalGrid : MonoBehaviour {
     )]
     public GameObject enemyIndicator;
 
-    List<CellPosition> allCells;
-    List<PhysicalCell> physicalCells = new List<PhysicalCell>();
-    GridWorld gridWorld;
+    private List<CellPosition> allCells;
+    private List<PhysicalCell> physicalCells = new List<PhysicalCell>();
+    private GridWorld gridWorld;
 
-    // Handles scaling the prefab to match the grid world's cell size.
+	/// <summary>
+    /// Handles scaling the prefab to match the grid world's cell size.
+	/// </summary>
+	/// <param name="original"></param>
+	/// <param name="position"></param>
+	/// <returns></returns>
     GameObject Instantiate(GameObject original, Vector3 position) {
         GameObject instance = Instantiate(original, position, Quaternion.identity, gameObject.transform);
         instance.transform.localScale = Vector3.one * gridWorld.cellSize;
