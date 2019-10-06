@@ -7,9 +7,46 @@ public class GridDweller : MonoBehaviour {
 
     private GridWorld dwellsOn;
     private CellPosition position = null;
+    private float animTimer = 0.0f, animDuration = 0.0f, animDelay = 0.0f;
+    private bool animating = false;
+    Vector3 animStart, animEnd;
 
     private void Start() {
         dwellsOn = GridWorld.getInstance();
+    }
+
+    void StartAt(CellPosition position) {
+        Start();
+        MoveToCell(position);
+        SyncRealPositionToCellPosition();
+    }
+
+    // Update is called once per frame
+    void Update() {
+        animTimer += Time.deltaTime;
+        if (animating && animTimer > animDelay) {
+            // We only need to animate the X and Z axes, so make the code agnostic to any changes
+            // in the Y value.
+            if (animTimer < (animDelay + animDuration)) {
+                float progress = (animTimer - animDelay) / animDuration;
+                float oldY = gameObject.transform.position.y;
+                gameObject.transform.position = Vector3.Lerp(animStart, animEnd, progress);
+                SyncCellPositionToRealPosition();
+            } else {
+                animEnd.y = gameObject.transform.position.y;
+                gameObject.transform.position = animEnd;
+                animating = false;
+            }
+        }
+    }
+
+    public void AnimateToCell(CellPosition position, float delay, float duration) {
+        animTimer = 0.0f;
+        animDelay = delay;
+        animDuration = duration;
+        animStart = gameObject.transform.position;
+        animEnd = dwellsOn.GetRealPosition(position);
+        animating = true;
     }
 
 	/// <summary>

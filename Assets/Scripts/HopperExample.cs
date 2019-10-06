@@ -28,7 +28,6 @@ public class HopperExample : MonoBehaviour {
     Mode mode = Mode.Wait;
     uint patrolStep = 0;
     float timer = 0.0f;
-    Vector3 animationStart, animationEnd;
 
     void Start() {
         dweller = GetComponent<GridDweller>();
@@ -47,30 +46,27 @@ public class HopperExample : MonoBehaviour {
             timer -= WAIT_TIME;
             mode = Mode.Animate;
             // Start the anim at the current position...
-            animationStart = GridWorld.getInstance().GetRealPosition(patrol[patrolStep]);
             patrolStep++;
             if (patrolStep >= patrol.Length) {
                 patrolStep = 0;
             }
-            // And end it at the next position.
-            animationEnd = GridWorld.getInstance().GetRealPosition(patrol[patrolStep]);
-            // Remove ourselves from the grid (we will add ourselves back after the animation.)
-            dweller.MoveToCell(null);
+            dweller.AnimateToCell(patrol[patrolStep], 0, ANIMATE_TIME);
         } else if (mode == Mode.Animate && timer >= ANIMATE_TIME) {
             timer -= ANIMATE_TIME;
             mode = Mode.Wait;
-            // Lock us in to be exactly at the target position.
-            gameObject.transform.position = animationEnd;
-            // Update our cell position.
-            dweller.SyncCellPositionToRealPosition();
+
+            // Make sure we are on the ground once the animation ends.
+            Vector3 newPosition = gameObject.transform.position;
+            newPosition.y = 0;
+            gameObject.transform.position = newPosition;
         }
 
         if (mode == Mode.Animate) {
             float progress = timer / ANIMATE_TIME;
             // Compute a parabolic jump animation.
-            gameObject.transform.position = 
-                Vector3.Lerp(animationStart, animationEnd, progress)
-                + Vector3.up * ANIMATION_HEIGHT * ParabolicCurve(progress);
+            Vector3 newPosition = gameObject.transform.position;
+            newPosition.y = ANIMATION_HEIGHT * ParabolicCurve(progress);
+            gameObject.transform.position = newPosition;
         }
     }
 }
