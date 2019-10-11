@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.executer.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\Public\\Documents\\Execute-R\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\Daniel\\GameProjects\\Unity\\Execute(R)\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "Execute(R) [Testing]"

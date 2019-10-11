@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ControllerTest : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// (0.3, 0.7, -0.1)
+	// (1.1, 1.3, -1.3)
+	// (-1.1, 1.4, -1.0)
+	// (-1.2, 1.4, 1.1)
+
+	private void Update() {
+		if(Input.GetButtonDown("Fire1")) {
+			Debug.Log(gameObject.name + ": " + transform.position);
+		}
+	}
 }
