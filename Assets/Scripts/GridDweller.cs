@@ -94,4 +94,13 @@ public class GridDweller : MonoBehaviour {
     public void MoveToCell(uint x, uint z) {
         MoveToCell(new CellPosition(x, z, position.side));
     }
+
+	public Vector3 GetSpacePosition() {
+		if(position != null) {
+			return dwellsOn.GetRealPosition(position);
+		}
+		else {
+			return Vector3.zero;
+		}
+	}
 }
