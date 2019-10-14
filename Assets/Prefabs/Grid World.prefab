@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSize: 1
-  neutralZone: 4
+  neutralZone: 2
   width: 4
   length: 4
