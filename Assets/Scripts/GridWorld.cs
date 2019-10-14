@@ -58,10 +58,12 @@ public class GridWorld : MonoBehaviour {
         return instance;
     }
 
-    /// We need to put this in Awake() because GridDwellers will try and place themselves on the
-    /// grid with Start(), so the arrays that hold that data needs to be initialized before any 
-    /// Start() methods run.
     void Awake() {
+
+		/// We need to put this in Awake() because GridDwellers will try and place themselves on the
+		/// grid with Start(), so the arrays that hold that data needs to be initialized before any 
+		/// Start() methods run.
+
         instance = this;
         playerSideContents = new List<GridDweller>[width, length];
         enemySideContents = new List<GridDweller>[width, length];
@@ -73,8 +75,12 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
-    /// Returns false if <c>CellPosition</c> is outside the bounds of this grid world.
-    public bool IsValid(CellPosition cellPosition) {
+	/// <summary>
+	/// Returns false if <c>CellPosition</c> is outside the bounds of this grid world.
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <returns></returns>
+	public bool IsValid(CellPosition cellPosition) {
         return cellPosition.x < width && cellPosition.z < length;
     }
 
@@ -108,8 +114,10 @@ public class GridWorld : MonoBehaviour {
         return ItemCountInCell(position) == 0;
     }
 
+	/// <summary>
     /// If one can be found, returns the position of a cell on the specified side which does not
     /// contain the specified type of dweller. If none can be found, null is returned instead.
+	/// </summary>
     public CellPosition FindRandomCellWithout(DwellerType type, GridClass side) {
         List<CellPosition> allCells = ListAllCellsOnSide(side);
         allCells.Shuffle();
@@ -121,9 +129,11 @@ public class GridWorld : MonoBehaviour {
         return null;
     }
 
+	/// <summary>
     /// This method should only be used by GridDweller. Use that component to represent something on
     /// the grid. Never interact with this method directly. Throws an exception if trying to set
     /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
+	/// </summary>
     public void AddDwellerToCell(CellPosition position, GridDweller dweller) {
         if (position.side == GridClass.PlayerGrid) {
             playerSideContents[position.x, position.z].Add(dweller);
@@ -132,9 +142,11 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
+	/// <summary>
     /// This method should only be used by GridDweller. Use that component to represent something on
     /// the grid. Never interact with this method directly. Throws an exception if trying to set
     /// a non-emtpy cell to something non-empty, or if trying to set an empty cell as empty again.
+	/// </summary>
     public void RemoveDwellerFromCell(CellPosition position, GridDweller dweller) {
         if (position.side == GridClass.PlayerGrid) {
             playerSideContents[position.x, position.z].Remove(dweller);
@@ -143,7 +155,9 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
+	/// <summary>
     /// Returns a list containing one CellPosition for every cell in the grid world.
+	/// </summary>
     public List<CellPosition> ListAllCells() {
         List<CellPosition> result = new List<CellPosition>();
         for (uint x = 0; x < width; x++) {
@@ -155,7 +169,9 @@ public class GridWorld : MonoBehaviour {
         return result;
     }
 
+	/// <summary>
     /// Returns a list containing one CellPosition for every cell on the specified side.
+	/// </summary>
     public List<CellPosition> ListAllCellsOnSide(GridClass side) {
         List<CellPosition> result = new List<CellPosition>();
         for (uint x = 0; x < width; x++) {
@@ -166,9 +182,11 @@ public class GridWorld : MonoBehaviour {
         return result;
     }
 
+	/// <summary>
     /// Returns a Vector3 indicating the real-world position of the center of the specified cell.
     /// Throws an InvalidCellPositionException if the provided grid position is outside the bounds
     /// of this grid world.
+	/// </summary>
     public Vector3 GetRealPosition(CellPosition cellPosition) {
         if (!IsValid(cellPosition)) {
             throw new InvalidCellPositionException(cellPosition, this);
@@ -192,8 +210,10 @@ public class GridWorld : MonoBehaviour {
         return position;
     }
 
+	/// <summary>
     /// Attempts to determine which cell the given world position lies in. If it is not inside the
     /// bounds of either the player or enemy grid, null is returned instead.
+	/// </summary>
     public CellPosition GridizeRealPosition(Vector3 realPosition) {
         bool isOnEnemyGrid = realPosition.z > 0; // Enemy grid is in the +z direction.
         // Reorient the coordinate system so that 0, 0 is at the 0, 0 corner of the enemy grid
