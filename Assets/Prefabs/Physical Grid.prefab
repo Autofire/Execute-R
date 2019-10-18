@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ab9f88402c0769547a2c7a090f1af6d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,4 +141,7 @@ MonoBehaviour:
   playerIndicator: {fileID: 1653133395508173151, guid: dab0478d3b2020af4b585450d724e245,
     type: 3}
   enemyIndicator: {fileID: 4781031086883701544, guid: 993895520ab0bb667b46c52eada7ba72,
+    type: 3}
+  optionalPlayerEffect: {fileID: 0}
+  optionalEnemyEffect: {fileID: 6210243948868946715, guid: e8c2ceee146d918219302d3eccec45f0,
     type: 3}
