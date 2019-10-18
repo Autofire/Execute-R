@@ -14,7 +14,7 @@ public class VRGridPosition : MonoBehaviour
 		Vector3 targetPos = vrPosition.ConstValue.position;
 		targetPos.y = 0;
 
-		Debug.Log(Vector3.Distance(targetPos, transform.position));
+//		Debug.Log(Vector3.Distance(targetPos, transform.position));
 
 		Vector3 distance = targetPos - transform.position;
 
