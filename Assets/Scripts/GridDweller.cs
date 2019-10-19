@@ -61,6 +61,25 @@ public class GridDweller : MonoBehaviour {
     }
 
 	/// <summary>
+	/// Grabs the position of the cell nearest to the given world
+	/// position. If the position falls outside of the grid, then null
+	/// is returend instead.
+	/// </summary>
+	/// <param name="realPosition">A world position</param>
+	/// <returns>The position of the requested cell, or null.</returns>
+	public Vector3? GridizeRealPostion(Vector3 realPosition) {
+		CellPosition cell = dwellsOn.GridizeRealPosition(realPosition);
+
+		if(cell != null) {
+			return dwellsOn.GetRealPosition(cell);
+		}
+		else {
+			return null;
+		}
+
+	}
+
+	/// <summary>
     /// Determines which cell the object is occupying based on its real (screen) position and then
     /// moves this object's cell position to that cell. Call this if you want manual changes to the
     /// object's position to be reflected in the game logic.

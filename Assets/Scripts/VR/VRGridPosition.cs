@@ -24,13 +24,12 @@ public class VRGridPosition : MonoBehaviour
 
 			Vector3 oldPosition = transform.position;
 
-			SetPosition(targetPos);
+			if(dweller.GridizeRealPostion(targetPos).HasValue) {
+				SetPosition(targetPos);
 
-			if(dweller.GetSpacePosition() == Vector3.zero) {
-				SetPosition(oldPosition);
+				Debug.Log(dweller.GetSpacePosition());
 			}
 
-			Debug.Log(dweller.GetSpacePosition());
 		}
 
 	}
