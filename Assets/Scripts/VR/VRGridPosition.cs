@@ -18,20 +18,27 @@ public class VRGridPosition : MonoBehaviour
 
 		Vector3 distance = targetPos - transform.position;
 
-		// Ok, circular distance it's going to work. We'll use a
+		// Ok, circular distance isn't going to work. We'll use a
 		// distance across each axis instead.
 		if(Mathf.Abs(distance.x) > leashDistance || Mathf.Abs(distance.z) > leashDistance) {
 
+			Vector3 oldPosition = transform.position;
 
-			transform.position = targetPos;
-			dweller.SyncCellPositionToRealPosition();
-			dweller.SyncRealPositionToCellPosition();
+			SetPosition(targetPos);
+
+			if(dweller.GetSpacePosition() == Vector3.zero) {
+				SetPosition(oldPosition);
+			}
 
 			Debug.Log(dweller.GetSpacePosition());
 		}
 
+	}
 
-
+	private void SetPosition(Vector3 newPos) {
+		transform.position = newPos;
+		dweller.SyncCellPositionToRealPosition();
+		dweller.SyncRealPositionToCellPosition();
 	}
 
 }
