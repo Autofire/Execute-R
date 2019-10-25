@@ -94,4 +94,8 @@ public class GridDweller : MonoBehaviour {
     public void MoveToCell(uint x, uint z) {
         MoveToCell(new CellPosition(x, z, position.side));
     }
+
+    void OnDestroy() {
+        MoveToCell(null);
+    }
 }
