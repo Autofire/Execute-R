@@ -15,9 +15,14 @@ public class GunInput : MonoBehaviour
 
         if (FireAction.GetStateDown(handType))
         {
-            Debug.Log("Fire Button Pressed");
+            Debug.Log("Fire Button Pressed from controller");
             gun.Fire();
 
+        }
+        if (Input.GetKeyDown("space"))
+        {
+            Debug.Log("Fire Button Pressed from spacebar");
+            gun.Fire();
         }
     }
 }
