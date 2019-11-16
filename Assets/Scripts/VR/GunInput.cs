@@ -13,7 +13,7 @@ public class GunInput : MonoBehaviour
     void Update()
     {
 
-        if (FireAction.GetStateDown(handType))
+        if (FireAction.GetState(handType))
         {
             Debug.Log("Fire Button Pressed from controller");
             gun.Fire();

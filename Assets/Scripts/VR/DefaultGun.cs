@@ -10,7 +10,7 @@ public class DefaultGun : AbstractGun
 
     void Start()
     {
-        bulletSpeed = 4;
+        //bulletSpeed = 4;
     }
     public override void Fire()
     {
