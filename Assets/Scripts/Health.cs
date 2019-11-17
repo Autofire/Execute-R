@@ -14,11 +14,12 @@ public class Health : MonoBehaviour
     private int currentHealth;
     private int maxHealth;
 
-    public UnityEvent feedbackToTrigger;
+    public UnityEvent hitFeedback;
+    public UnityEvent deathFeedback;
 
     private void Start()
     {
-        maxHealth = 10; //Temporary; added to demonstrate health example.
+        maxHealth = 15; //Temporary; added to demonstrate health example.
         //Currently no other way of specifying health amount through code or inspector.
 
         currentHealth = maxHealth;
@@ -32,6 +33,7 @@ public class Health : MonoBehaviour
 
             if (currentHealth <= amount)
             {
+                DeathFeedback();
                 Die();
             }
             currentHealth -= amount;
@@ -60,6 +62,11 @@ public class Health : MonoBehaviour
     //Apply some feedback showing the player they got hurt/ enemy got hurt
     public void HitFeedback()
     {
-        feedbackToTrigger.Invoke();
+        hitFeedback.Invoke();
+    }
+
+    public void DeathFeedback()
+    {
+        deathFeedback.Invoke();
     }
 }
