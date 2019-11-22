@@ -29,14 +29,15 @@ public class Health : MonoBehaviour
     {
         if (affect == DamageType.Damage)
         {
-            HitFeedback();
-
             if (currentHealth <= amount)
             {
+                HitFeedback();
                 DeathFeedback();
                 Die();
             }
+
             currentHealth -= amount;
+            HitFeedback();
 
             //Temporary; used to show current health of object.
             Debug.Log(gameObject.name + " health: " + currentHealth);
@@ -57,6 +58,16 @@ public class Health : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
     }
 
     //Apply some feedback showing the player they got hurt/ enemy got hurt
