@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 9071158307700495573, guid: a26716ff46d158749825060d221f2120,
         type: 3}
       propertyPath: m_Name
-      value: Controller (left)
+      value: Controller (left) Variant
       objectReference: {fileID: 0}
     - target: {fileID: 9071158307700650121, guid: a26716ff46d158749825060d221f2120,
         type: 3}
@@ -75,6 +75,11 @@ PrefabInstance:
     - target: {fileID: 9071158306206596017, guid: a26716ff46d158749825060d221f2120,
         type: 3}
       propertyPath: handType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306159226382835481, guid: a26716ff46d158749825060d221f2120,
+        type: 3}
+      propertyPath: source
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

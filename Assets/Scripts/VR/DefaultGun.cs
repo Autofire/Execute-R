@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DefaultGun : AbstractGun
 {
     public Transform barrelPoint;
     public GameObject bulletPrefab;
+	public UnityEvent onFire;
 
     void Start()
     {
@@ -15,11 +17,15 @@ public class DefaultGun : AbstractGun
     {
 
         Debug.Log("Gun Fired");
-        // Position of bullet on creation
-        Vector3 start = barrelPoint.transform.position;
-        //start += barrelPoint.transform.forward.normalized * 1;
 
-        GameObject bullet = Instantiate(bulletPrefab, start, barrelPoint.rotation);
-        
+        // Position of bullet on creation
+        GameObject bullet = Instantiate(
+			bulletPrefab,
+			barrelPoint.transform.position,
+			barrelPoint.rotation
+		);
+
+		onFire.Invoke();
+
     }
 }
