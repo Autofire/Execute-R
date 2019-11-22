@@ -18,7 +18,7 @@ public class DefaultGun : AbstractGun
         Debug.Log("Gun Fired");
         // Position of bullet on creation
         Vector3 start = barrelPoint.transform.position;
-        start += barrelPoint.transform.forward.normalized * 1;
+        //start += barrelPoint.transform.forward.normalized * 1;
 
         GameObject bullet = Instantiate(bulletPrefab, start, barrelPoint.rotation);
         Rigidbody body = bullet.GetComponent<Rigidbody>();
