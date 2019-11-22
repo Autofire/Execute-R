@@ -6,7 +6,6 @@ public class DefaultGun : AbstractGun
 {
     public Transform barrelPoint;
     public GameObject bulletPrefab;
-    public float bulletSpeed;
 
     void Start()
     {
@@ -21,8 +20,6 @@ public class DefaultGun : AbstractGun
         //start += barrelPoint.transform.forward.normalized * 1;
 
         GameObject bullet = Instantiate(bulletPrefab, start, barrelPoint.rotation);
-        Rigidbody body = bullet.GetComponent<Rigidbody>();
-        body.velocity = bullet.transform.forward * bulletSpeed;
         
     }
 }
