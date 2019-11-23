@@ -6,8 +6,13 @@ using Valve.VR;
 public class GunInput : MonoBehaviour
 {
     public SteamVR_Action_Boolean FireAction;
-    public SteamVR_Input_Sources handType;
     public AbstractGun gun;
+
+    private SteamVR_Input_Sources handType;
+
+	private void Start() {
+		handType = GetComponentInParent<SteamVR_Behaviour_Pose>().inputSource;
+	}
 
     // Update is called once per frame
     void Update()
