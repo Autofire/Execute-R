@@ -31,7 +31,9 @@ public class PlayerHitEffects : MonoBehaviour
     private void Start()
     {
         //Finds PostProcessing layer to apply effect.
+        //Must have PostProcessing layer added in order for effect to work properly.
         layerIndex = LayerMask.NameToLayer("PostProcessing");
+        gameObject.GetComponent<PostProcessLayer>().volumeLayer = LayerMask.GetMask("PostProcessing");
 
         //Creates vignette effect and sets default settings.
         vignette = ScriptableObject.CreateInstance<Vignette>();
