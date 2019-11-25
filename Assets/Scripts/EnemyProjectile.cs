@@ -12,6 +12,7 @@ public class EnemyProjectile : MonoBehaviour {
 
     void Start() {
         dweller = GetComponent<GridDweller>();
+        SetVelocity(Vector3.back * 4.0f);
     }
 
     void Update() {

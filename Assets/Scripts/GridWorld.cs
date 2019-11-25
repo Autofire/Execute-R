@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum DwellerType {
     Player,
-    Enemy
+    Enemy,
+    EnemyBullet,
 }
 
 public enum GridClass {
