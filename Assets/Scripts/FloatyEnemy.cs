@@ -59,7 +59,7 @@ public class FloatyEnemy : MonoBehaviour {
 
     void PickNewState() {
         if (currentState == State.Idle) {
-            if (Random.Range(0, 2) < 9) {
+            if (Random.Range(0, 2) == 0) {
                 currentState = State.Shoot;
                 animDuration = SHOOT_DURATION;
                 FireBullet(GUN_1);
