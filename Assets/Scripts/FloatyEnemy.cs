@@ -5,6 +5,7 @@ using UnityEngine;
 enum State {
     Idle,
     Shoot,
+    Idle2,
     Travel,
 }
 
@@ -13,7 +14,7 @@ public class FloatyEnemy : MonoBehaviour {
     private const float FLOAT_AMOUNT = 0.5f; // Meters to float off the ground.
     //                  seconds             seconds per meter
     private const float FLIGHT_BASE = 0.4f, FLIGHT_DURATION = 0.2f; 
-    private Vector3 GUN_1 = new Vector3(0.4f, 0.1f, -0.4f), GUN_2 = new Vector3(-0.4f, 0.1f, -0.4f);
+    private Vector3 GUN_1 = new Vector3(0.3f, 0.1f, -0.4f), GUN_2 = new Vector3(-0.3f, 0.1f, -0.4f);
     public GameObject mesh, bullet;
     private float animTimer = 0.0f, animDuration = IDLE_CYCLE_DURATION * 6.0f;
     private State currentState = State.Idle;
@@ -59,12 +60,14 @@ public class FloatyEnemy : MonoBehaviour {
 
     void PickNewState() {
         if (currentState == State.Idle) {
-            if (Random.Range(0, 2) == 0) {
-                currentState = State.Shoot;
-                animDuration = SHOOT_DURATION;
-                FireBullet(GUN_1);
-                FireBullet(GUN_2);
-            } else {
+            currentState = State.Shoot;
+            animDuration = SHOOT_DURATION;
+            FireBullet(GUN_1);
+            FireBullet(GUN_2);
+        } else if (currentState == State.Shoot) {
+            currentState = State.Idle2;
+            animDuration = IDLE_CYCLE_DURATION * Random.Range(2, 5);
+        } else if (currentState == State.Idle2) {
                 currentState = State.Travel;
                 CellPosition newCell = GetRandomCell();
                 Vector3 newPos = dweller.GetGridWorld().GetRealPosition(newCell);
@@ -72,10 +75,9 @@ public class FloatyEnemy : MonoBehaviour {
                 float distance = (newPos - currentPos).magnitude;
                 animDuration = distance * FLIGHT_DURATION + FLIGHT_BASE;
                 dweller.AnimateToCell(newCell, animDuration, 0.0f, 2.0f);
-            }
-        } else {
+        } else if (currentState == State.Travel) {
             currentState = State.Idle;
-            animDuration = IDLE_CYCLE_DURATION * Random.Range(4, 8);
+            animDuration = IDLE_CYCLE_DURATION * Random.Range(2, 5);
         }
     }
 
@@ -86,7 +88,7 @@ public class FloatyEnemy : MonoBehaviour {
             animTimer -= animDuration;
             PickNewState();
         }
-        if (currentState == State.Idle) {
+        if (currentState == State.Idle || currentState == State.Idle2) {
             IdleAnim();
         } else if (currentState == State.Shoot) {
             ShootAnim();

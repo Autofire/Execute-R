@@ -33,7 +33,7 @@ public class CellPosition {
 
 public class InvalidCellPositionException : Exception {
     public InvalidCellPositionException(CellPosition position, GridWorld world)
-        : base(String.Format(
+        : base(position == null ? "Position is null." : String.Format(
             "Grid position ({0},{1}) is outside the bounds of ({2},{3})", 
             position.x, 
             position.z, 
@@ -82,7 +82,7 @@ public class GridWorld : MonoBehaviour {
 	/// <param name="cellPosition"></param>
 	/// <returns></returns>
 	public bool IsValid(CellPosition cellPosition) {
-        return cellPosition.x < width && cellPosition.z < length;
+        return cellPosition != null && cellPosition.x < width && cellPosition.z < length;
     }
 
     public int ItemCountInCell(CellPosition position) {
@@ -98,7 +98,7 @@ public class GridWorld : MonoBehaviour {
 
     public bool IsTypeInCell(CellPosition position, DwellerType type) {
         if (!IsValid(position)) {
-            throw new InvalidCellPositionException(position, this);
+            return false;
         }
         if (position.side == GridClass.PlayerGrid) {
             return playerSideContents[position.x, position.z].Exists(
