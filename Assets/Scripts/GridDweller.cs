@@ -114,6 +114,14 @@ public class GridDweller : MonoBehaviour {
         MoveToCell(new CellPosition(x, z, position.side));
     }
 
+    public CellPosition GetCurrentCell() {
+        SyncRealPositionToCellPosition();
+        return position;
+    }
+
+    public GridWorld GetGridWorld() {
+        return dwellsOn;
+    }
 
 	public Vector3 GetSpacePosition() {
 		if(position != null) {
