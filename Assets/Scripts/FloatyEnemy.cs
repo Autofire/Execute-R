@@ -11,7 +11,7 @@ enum State {
 
 public class FloatyEnemy : MonoBehaviour {
     private const float IDLE_CYCLE_DURATION = 0.7f, SHOOT_DURATION = 0.5f;
-    private const float FLOAT_AMOUNT = 0.5f; // Meters to float off the ground.
+    public float FLOAT_AMOUNT = 0.5f; // Meters to float off the ground.
     //                  seconds             seconds per meter
     private const float FLIGHT_BASE = 0.4f, FLIGHT_DURATION = 0.2f; 
     private Vector3 GUN_1 = new Vector3(0.3f, 0.1f, -0.4f), GUN_2 = new Vector3(-0.3f, 0.1f, -0.4f);
