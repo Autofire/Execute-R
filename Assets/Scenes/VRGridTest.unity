@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c252acaf50fc8134b9e8cd58b2ad7684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &212006654
+--- !u!21 &374036269
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4fb156b0e1f42516bf021b2a8e9b8b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!43 &903320256
+--- !u!43 &924903118
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1334,12 +1334,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 212006654}
+      objectReference: {fileID: 374036269}
     - target: {fileID: 7544316358991999373, guid: 3a74db7b05bd3d742bcceb34c782eac6,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 903320256}
+      objectReference: {fileID: 924903118}
     - target: {fileID: 7544316358985394413, guid: 3a74db7b05bd3d742bcceb34c782eac6,
         type: 3}
       propertyPath: size
