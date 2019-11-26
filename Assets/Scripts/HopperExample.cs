@@ -50,7 +50,7 @@ public class HopperExample : MonoBehaviour {
             if (patrolStep >= patrol.Length) {
                 patrolStep = 0;
             }
-            dweller.AnimateToCell(patrol[patrolStep], 0, ANIMATE_TIME);
+            dweller.AnimateToCell(patrol[patrolStep], ANIMATE_TIME);
         } else if (mode == Mode.Animate && timer >= ANIMATE_TIME) {
             timer -= ANIMATE_TIME;
             mode = Mode.Wait;
