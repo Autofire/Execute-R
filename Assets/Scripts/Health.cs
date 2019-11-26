@@ -12,16 +12,13 @@ public enum DamageType
 public class Health : MonoBehaviour
 {
     private int currentHealth;
-    private int maxHealth;
+    public int maxHealth = 15;      //Default of 15. Customize through inspector.
 
     public UnityEvent hitFeedback;
     public UnityEvent deathFeedback;
 
     private void Start()
     {
-        maxHealth = 15; //Temporary; added to demonstrate health example.
-        //Currently no other way of specifying health amount through code or inspector.
-
         currentHealth = maxHealth;
     }
 
