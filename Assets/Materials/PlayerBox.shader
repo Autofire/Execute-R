@@ -4,7 +4,7 @@
 
 Shader "Custom/PlayerBox" {
     Properties {
-		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_NoiseTex ("Noise", 2D) = "white" {}
 	}
 	SubShader {
 		Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"}
@@ -31,28 +31,31 @@ Shader "Custom/PlayerBox" {
         
             struct v2f {
                 float4 pos : SV_POSITION;
-                float3 worldNormal : TEXCOORD0;
-                float3 viewDirection: TEXCOORD1;
-                float2 uv_MainTex : TEXCOORD2;
+                float3 worldPos : TEXCOORD0;
+                float3 worldNormal : TEXCOORD1;
+                float3 viewDirection: TEXCOORD2;
             };
         
-            float4 _MainTex_ST;
         
             v2f vert(appdata_base v) {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
-                float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                o.viewDirection = normalize(UnityWorldSpaceViewDir(worldPos));
-                o.uv_MainTex = TRANSFORM_TEX(v.texcoord, _MainTex);
+                o.viewDirection = normalize(UnityWorldSpaceViewDir(o.worldPos));
                 return o;
             }
         
-            sampler2D _MainTex;
+            sampler2D _NoiseTex;
         
             float4 frag(v2f i) : COLOR {
                 float fresnel = pow((1.0 - saturate(dot(-i.worldNormal, i.viewDirection))), 1.0f);
-                half4 c = half4(fresnel, fresnel, fresnel, 0.5); 
+                float noiseValue = tex2D(_NoiseTex, float2(i.worldPos.x / 5.0 + i.worldPos.z / 5.0, i.worldPos.y / 5.0 - _Time.y * 0.5)).r;
+                noiseValue *= noiseValue * noiseValue;
+                if ((i.worldPos.y - (_Time.y * 0.2 % 0.05) + 1.0) % 0.05 < 0.03) {
+                    noiseValue = 0.0;
+                }
+                half4 c = half4(0, 1, 1, fresnel * noiseValue);
                 return c;
             }
 			ENDCG
