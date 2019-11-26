@@ -50,9 +50,9 @@ Shader "Custom/PlayerBox" {
         
             float4 frag(v2f i) : COLOR {
                 float fresnel = pow((1.0 - saturate(dot(-i.worldNormal, i.viewDirection))), 1.0f);
-                float noiseValue = tex2D(_NoiseTex, float2(i.worldPos.x / 5.0 + i.worldPos.z / 5.0, i.worldPos.y / 5.0 - _Time.y * 0.5)).r;
+                float noiseValue = tex2D(_NoiseTex, float2(i.worldPos.x / 5.0 + i.worldPos.z / 5.0, i.worldPos.y / 5.0 + _Time.y * 0.1)).r;
                 noiseValue *= noiseValue * noiseValue;
-                if ((i.worldPos.y - (_Time.y * 0.2 % 0.05) + 1.0) % 0.05 < 0.03) {
+                if ((i.worldPos.y - (_Time.y * 0.1 % 0.05) + 1.0) % 0.05 < 0.03) {
                     noiseValue = 0.0;
                 }
                 half4 c = half4(0, 1, 1, fresnel * noiseValue);
