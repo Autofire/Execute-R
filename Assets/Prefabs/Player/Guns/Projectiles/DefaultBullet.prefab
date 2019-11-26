@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7234142931794507535}
   - component: {fileID: -4334936837388311097}
   - component: {fileID: 2088410345461610369}
+  - component: {fileID: -8119442346640086743}
   m_Layer: 0
   m_Name: DefaultBullet
   m_TagString: PlayerAttack
@@ -229,3 +230,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 60
+--- !u!114 &-8119442346640086743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234142931794507530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da4c727812f60cd4ca4a2fb0f27a8549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagsToIgnore:
+  - ControlField
