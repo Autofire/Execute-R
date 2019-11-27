@@ -42,11 +42,54 @@ Shader "Custom/Skybox" {
     half4 _CloudColor;
     half4 _DigitColor;
 
+    float sampleChar(float2 st, float n) {
+        int digit = 0;
+        
+        if (n < 1. ) { digit = 9712; }
+        else if (n < 2. ) { digit = 21158; }
+        else if (n < 3. ) { digit = 25231; }
+        else if (n < 4. ) { digit = 23187; }
+        else if (n < 5. ) { digit = 23498; }
+        else if (n < 6. ) { digit = 31702; }
+        else if (n < 7. ) { digit = 25202; }
+        else if (n < 8. ) { digit = 30163; }
+        else if (n < 9. ) { digit = 18928; }
+        else if (n < 10. ) { digit = 23531; }
+        else if (n < 11. ) { digit = 29128; }
+        else if (n < 12. ) { digit = 17493; }
+        else if (n < 13. ) { digit = 7774; }
+        else if (n < 14. ) { digit = 31141; }
+        else if (n < 15. ) { digit = 29264; }
+        else if (n < 16. ) { digit = 3641; }
+        else if (n < 17. ) { digit = 31315; }
+        else if (n < 18. ) { digit = 31406; }
+        else if (n < 19. ) { digit = 30864; }
+        else if (n < 20. ) { digit = 31208; }
+        else { digit = 1; }
+
+        int pixel = floor(st.x * 3.0) + 3.0 * floor(st.y * 5.0);
+
+        return (digit & (1 << pixel)) > 0 ? 1.0 : 0.0;
+    }
+ 
+    float noise(float2 vect) {
+        return frac(sin(dot(vect, float2(5372.156, 8452.751))) * 1643.268);
+    }
+
     float sampleText(float x, float z) {
         if (abs(x) < 1.0 && abs(z) < 1.0) {
             float2 coord = float2(x / 2 + 0.5, z / 2 + 0.5);
+            float2 charCoord = coord % (1.0 / 128.0) * 128.0;
+            charCoord.x /= 0.4;
+            charCoord.x -= 0.3;
+            charCoord.y /= 0.8;
+            charCoord.y -= 0.1;
             coord -= coord % (1.0 / 128.0) - (1.0 / 256.0);
-            return tex2Dlod(_TextTex, float4(coord.x, coord.y, 0, 0)).r;
+            float pixel = 0.0;
+            if (charCoord.x > 0 && charCoord.x < 1 && charCoord.y > 0 && charCoord.y < 1) {
+                pixel = sampleChar(charCoord, noise(coord) * 20.0);
+            }
+            return tex2Dlod(_TextTex, float4(coord.x, coord.y, 0, 0)).r * pixel;
         } else {
             return 0;
         }
