@@ -15,10 +15,12 @@ public class FloatyEnemy : MonoBehaviour {
     //                  seconds             seconds per meter
     private const float FLIGHT_BASE = 0.4f, FLIGHT_DURATION = 0.2f; 
     private Vector3 GUN_1 = new Vector3(0.3f, 0.1f, -0.4f), GUN_2 = new Vector3(-0.3f, 0.1f, -0.4f);
-    public GameObject mesh, bullet;
     private float animTimer = 0.0f, animDuration = IDLE_CYCLE_DURATION * 6.0f;
     private State currentState = State.Idle;
     private GridDweller dweller;
+    private bool eyesFocused = false;
+    public GameObject mesh, bullet;
+    public AngryEyes eyes;
 
     private CellPosition GetRandomCell() {
         return dweller.GetGridWorld().FindRandomCellWithout(DwellerType.Enemy, GridClass.EnemyGrid);
@@ -78,6 +80,7 @@ public class FloatyEnemy : MonoBehaviour {
         } else if (currentState == State.Travel) {
             currentState = State.Idle;
             animDuration = IDLE_CYCLE_DURATION * Random.Range(2, 5);
+            eyesFocused = false;
         }
     }
 
@@ -90,6 +93,10 @@ public class FloatyEnemy : MonoBehaviour {
         }
         if (currentState == State.Idle || currentState == State.Idle2) {
             IdleAnim();
+            if (currentState == State.Idle && !eyesFocused && animDuration - animTimer < 0.6f) {
+                eyes.FocusAhead();
+                eyesFocused = true;
+            }
         } else if (currentState == State.Shoot) {
             ShootAnim();
         } else if (currentState == State.Travel) {

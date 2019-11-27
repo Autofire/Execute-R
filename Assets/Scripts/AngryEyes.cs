@@ -18,6 +18,13 @@ public class AngryEyes: MonoBehaviour {
         newRot = Quaternion.Euler(Random.Range(10, -10), Random.Range(-20, 20), 0);
     }
 
+    public void FocusAhead() {
+        oldRot = gameObject.transform.localRotation;
+        newRot = Quaternion.Euler(0, 0, 0);
+        progress = 0.0f;
+        maxProgress = MOVE_TIME;
+    }
+
     void Start() {
         Plan();
     }

@@ -62,6 +62,7 @@ MonoBehaviour:
   FLOAT_AMOUNT: 0.5
   mesh: {fileID: 3522018627164338862}
   bullet: {fileID: 1826993970963955988, guid: 34f6afc008727f2628b6a04cede5a613, type: 3}
+  eyes: {fileID: 2736915744766341102}
 --- !u!114 &9017017156996645197
 MonoBehaviour:
   m_ObjectHideFlags: 0

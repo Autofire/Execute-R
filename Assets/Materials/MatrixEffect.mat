@@ -58,21 +58,21 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _Density: 30
+    - _Density: 26.3
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 0
-    - _Grid: 50
+    - _Grid: 24
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
-    - _SpeedMax: 1.6
-    - _SpeedMin: 0.11
+    - _SpeedMax: 23.7
+    - _SpeedMin: 3.32
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
