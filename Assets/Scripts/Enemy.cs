@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour {
             CellPosition next 
                 = GridWorld.getInstance()
                 .FindRandomCellWithout(DwellerType.Enemy, GridClass.EnemyGrid);
-            dweller.AnimateToCell(next, 0, moveTime);
+            dweller.AnimateToCell(next, moveTime);
         }
     }
 
