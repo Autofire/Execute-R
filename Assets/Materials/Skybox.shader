@@ -128,8 +128,8 @@ Shader "Custom/Skybox" {
         } else {
             cloudiness = lerp(channels.g, channels.r, subCycle);
         }
-        float diminisher = pow(1.0 - realy, 3.0);
-        cloudiness = saturate(cloudiness - diminisher - 0.2) / (1 - diminisher * 0.7);
+        float diminisher = saturate(1.2 * pow(1.0 - realy, 8.0));
+        cloudiness = saturate(cloudiness - diminisher - 0.13) / (1 - diminisher * 0.7);
         return cloudiness;
     }
 
@@ -165,7 +165,7 @@ Shader "Custom/Skybox" {
         if (i.texcoord.y > 0.1) {
             half3 texcoord = i.texcoord;
             texcoord /= i.texcoord.y;
-            texcoord /= 3;
+            texcoord /= 5;
             float cloudiness = getCloudiness(texcoord, i.texcoord.y);
             float textValue = getText(texcoord);
             float weakBlur = getWeakBlurredText(texcoord);
