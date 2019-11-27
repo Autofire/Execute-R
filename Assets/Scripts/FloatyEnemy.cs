@@ -68,13 +68,13 @@ public class FloatyEnemy : MonoBehaviour {
             currentState = State.Idle2;
             animDuration = IDLE_CYCLE_DURATION * Random.Range(2, 5);
         } else if (currentState == State.Idle2) {
-                currentState = State.Travel;
-                CellPosition newCell = GetRandomCell();
-                Vector3 newPos = dweller.GetGridWorld().GetRealPosition(newCell);
-                Vector3 currentPos = gameObject.transform.position;
-                float distance = (newPos - currentPos).magnitude;
-                animDuration = distance * FLIGHT_DURATION + FLIGHT_BASE;
-                dweller.AnimateToCell(newCell, animDuration, 0.0f, 2.0f);
+            currentState = State.Travel;
+            CellPosition newCell = GetRandomCell();
+            Vector3 newPos = dweller.GetGridWorld().GetRealPosition(newCell);
+            Vector3 currentPos = gameObject.transform.position;
+            float distance = (newPos - currentPos).magnitude;
+            animDuration = distance * FLIGHT_DURATION + FLIGHT_BASE;
+            dweller.AnimateToCell(newCell, animDuration, 0.0f, 2.0f);
         } else if (currentState == State.Travel) {
             currentState = State.Idle;
             animDuration = IDLE_CYCLE_DURATION * Random.Range(2, 5);
