@@ -12,10 +12,17 @@ public class EnemyHitColor : MonoBehaviour
     //Initialized to default values. Can change in inspector.
     public float colorTime = 1f;
     public Color hitColor = Color.red;
+	public Renderer targetRenderer;
 
-    private void Start()
+	private void Awake() {
+		if(targetRenderer == null) {
+			targetRenderer = GetComponent<Renderer>();
+		}
+	}
+
+	private void Start()
     {
-        originalColor = gameObject.GetComponent<Renderer>().material.color;
+        originalColor = targetRenderer.material.color;
     }
 
     private void Update()
@@ -30,7 +37,7 @@ public class EnemyHitColor : MonoBehaviour
     {
         normalizedTimer = timer / colorTime;
         curColor = Color.Lerp(originalColor, hitColor, normalizedTimer);
-        gameObject.GetComponent<Renderer>().material.color = curColor;
+        targetRenderer.material.color = curColor;
         timer -= Time.deltaTime;
     }
 
