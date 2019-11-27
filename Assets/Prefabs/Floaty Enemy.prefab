@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9017017156996645199}
   - component: {fileID: 9017017156996645196}
   - component: {fileID: 9017017156996645197}
+  - component: {fileID: 8810880459238775468}
+  - component: {fileID: 5290979415747788111}
   m_Layer: 0
   m_Name: Floaty Enemy
   m_TagString: Untagged
@@ -45,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4629e4830dac45b1898da121c8854c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FLOAT_AMOUNT: 0.5
   mesh: {fileID: 1009664223016977758}
   bullet: {fileID: 1826993970963955988, guid: 34f6afc008727f2628b6a04cede5a613, type: 3}
 --- !u!114 &9017017156996645197
@@ -60,6 +63,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+--- !u!65 &8810880459238775468
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017017156996645198}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.5, z: 1}
+  m_Center: {x: 0, y: 0.55, z: 0}
+--- !u!54 &5290979415747788111
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017017156996645198}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &9017017157079686231
 PrefabInstance:
   m_ObjectHideFlags: 0
