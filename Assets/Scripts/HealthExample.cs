@@ -19,6 +19,7 @@ public class HealthExample : MonoBehaviour
     {
         if (Input.GetKeyDown(damageKey))
         {
+            Debug.Log("Player hit");
             health.TakeDamage(DamageType.Damage, damageAmount);
         }
     }
