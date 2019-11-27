@@ -111,7 +111,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!96 &-4334936837388311097
 TrailRenderer:
   serializedVersion: 2
@@ -243,6 +243,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tagsToIgnore:
-  - ControlField
+  - Killbox
   spawnOnDestruction: {fileID: 1037475506338904, guid: 9b3464da84461ef4da59c650aaf9361c,
     type: 3}
