@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour {
 	public Vector3 velocity = new Vector3(0, 0, -4);
+	public int damage = 5;
     GridDweller dweller;
 
 	/*
@@ -26,7 +27,8 @@ public class EnemyProjectile : MonoBehaviour {
 		transform.position += velocity * Time.deltaTime;
 		if(dweller.GetGridWorld().IsTypeInCell(dweller.GetCurrentCell(), DwellerType.Player)) {
 			// TODO: Deduct health.
-			Debug.Log("HIT THE PLAYER! (TODO: DEDUCT HEALTH)");
+			//Debug.Log("HIT THE PLAYER! (TODO: DEDUCT HEALTH)");
+
 			Destroy(gameObject);
 		}
     }
