@@ -112,11 +112,23 @@ Shader "Custom/Skybox" {
     }
 
     float getCloudiness(half3 texcoord, float realy) {
-        float cloudiness = tex2D(
+        texcoord.x -= _Time.x * 0.3;
+        texcoord.z += _Time.x * 0.1;
+        half4 channels = tex2D(
             _NoiseTex, 
             float2(texcoord.x, texcoord.z)
-        ).r;
-        float diminisher = pow(1.0 - realy, 2.0);
+        );
+        float channelCycle = (_Time.x * 4.0f) % 3.0;
+        float subCycle = channelCycle % 1.0;
+        float cloudiness;
+        if (channelCycle < 1) {
+            cloudiness = lerp(channels.r, channels.b, subCycle);
+        } else if (channelCycle < 2) {
+            cloudiness = lerp(channels.b, channels.g, subCycle);
+        } else {
+            cloudiness = lerp(channels.g, channels.r, subCycle);
+        }
+        float diminisher = pow(1.0 - realy, 3.0);
         cloudiness = saturate(cloudiness - diminisher - 0.2) / (1 - diminisher * 0.7);
         return cloudiness;
     }
@@ -150,11 +162,11 @@ Shader "Custom/Skybox" {
     }
     
     fixed4 frag (v2f i) : COLOR {
-        if (i.texcoord.y > 0.2) {
+        if (i.texcoord.y > 0.1) {
             half3 texcoord = i.texcoord;
             texcoord /= i.texcoord.y;
+            texcoord /= 3;
             float cloudiness = getCloudiness(texcoord, i.texcoord.y);
-            texcoord /= 2;
             float textValue = getText(texcoord);
             float weakBlur = getWeakBlurredText(texcoord);
             float blurred = pow(getStrongBlurredText(texcoord), 0.5);
@@ -163,7 +175,7 @@ Shader "Custom/Skybox" {
             cloudColor += lerp(0, lerp(_DigitColor, 0, 1 - cloudiness), blurred);
             float textGlow = lerp(textValue, weakBlur, saturate(cloudiness * 2.0));
             half4 skyColor = lerp(_SkyColor, _DigitColor, textGlow);
-            return lerp(skyColor, cloudColor, pow(saturate(cloudiness * 1.5), 0.7));
+            return lerp(skyColor, cloudColor, pow(saturate(cloudiness * 2.0), 1.0));
         } else {
             return _SkyColor;
         }
