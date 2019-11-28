@@ -11,12 +11,12 @@ public class GridDweller : MonoBehaviour {
     private bool animating = false;
     Vector3 animStart, animEnd;
 
-    private void Start() {
+    private void Awake() {
         dwellsOn = GridWorld.getInstance();
     }
 
     public void StartAt(CellPosition position) {
-        Start();
+        Awake();
         MoveToCell(position);
         SyncRealPositionToCellPosition();
     }
