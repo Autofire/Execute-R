@@ -134,7 +134,7 @@ public class GridDweller : MonoBehaviour {
     }
 
     public CellPosition GetCurrentCell() {
-        SyncRealPositionToCellPosition();
+        SyncCellPositionToRealPosition();
         return position;
     }
 

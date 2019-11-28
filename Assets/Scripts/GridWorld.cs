@@ -111,6 +111,22 @@ public class GridWorld : MonoBehaviour {
         }
     }
 
+	public GridDweller[] CellContents(CellPosition position) {
+
+		GridDweller[] contents = new GridDweller[] { };
+
+		if(IsValid(position)) {
+			if(position.side == GridClass.PlayerGrid) {
+				return playerSideContents[position.x, position.z].ToArray();
+			}
+			else if(position.side == GridClass.EnemyGrid) {
+				return enemySideContents[position.x, position.z].ToArray();
+			}
+		}
+
+		return contents;
+	}
+
     public bool IsCellEmpty(CellPosition position) {
         return ItemCountInCell(position) == 0;
     }

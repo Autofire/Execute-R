@@ -4,18 +4,40 @@ using UnityEngine;
 
 class PhysicalCell {
     public Vector3 position;
+	/*
     public GameObject playerIndicator = null;
     public GameObject enemyIndicator = null;
     public ParticleSystem playerEffect = null;
     public ParticleSystem enemyEffect = null;
+	*/
+	public class TypeSpecificData {
+		public GameObject indicator;
+		public ParticleSystem effect;
+	}
+
+	public Dictionary<DwellerType, TypeSpecificData> data;
+
+	public PhysicalCell() {
+		data = new Dictionary<DwellerType, TypeSpecificData>();
+	}
 }
 
+
 public class PhysicalGrid : MonoBehaviour {
+
+	[System.Serializable]
+	public struct DwellerInfo {
+		public DwellerType type;
+		public GameObject indicatorPrefab;
+		public GameObject optionalEffect;
+	}
+
     [Tooltip(
         "This prefab will be instantiated for every single cell in the grid. The prefab should be "
         + "1 unit big, and will be scaled to the actual size of the grid."
     )]
     public GameObject cellPrefab;
+	/*
     [Tooltip(
         "This prefab will be instantiated for every cell containing a player. The prefab should be "
         + "1 unit big, and will be scaled to the actual size of the grid."
@@ -28,6 +50,8 @@ public class PhysicalGrid : MonoBehaviour {
     public GameObject enemyIndicator;
     public GameObject optionalPlayerEffect = null;
     public GameObject optionalEnemyEffect = null;
+	*/
+	public DwellerInfo[] dwellerInfoSet;
 
     private List<CellPosition> allCells;
     private List<PhysicalCell> physicalCells = new List<PhysicalCell>();
@@ -53,6 +77,7 @@ public class PhysicalGrid : MonoBehaviour {
             physicalCell.position = gridWorld.GetRealPosition(cell);
             Instantiate(cellPrefab, physicalCell.position);
 
+			/*
             if (optionalPlayerEffect != null) {
                 GameObject playerEffect = Instantiate(optionalPlayerEffect, physicalCell.position);
                 physicalCell.playerEffect = playerEffect.GetComponentInChildren<ParticleSystem>();
@@ -64,6 +89,17 @@ public class PhysicalGrid : MonoBehaviour {
                 physicalCell.enemyEffect = enemyEffect.GetComponentInChildren<ParticleSystem>();
                 physicalCell.enemyEffect.Stop();
             }
+			*/
+
+			foreach(DwellerInfo info in dwellerInfoSet) {
+				physicalCell.data.Add(info.type, new PhysicalCell.TypeSpecificData());
+
+				if(info.optionalEffect != null) {
+					GameObject effect = Instantiate(info.optionalEffect, physicalCell.position);
+					physicalCell.data[info.type].effect = effect.GetComponentInChildren<ParticleSystem>();
+					physicalCell.data[info.type].effect.Stop();
+				}
+			}
 
             physicalCells.Add(physicalCell);
         }
@@ -74,41 +110,26 @@ public class PhysicalGrid : MonoBehaviour {
             CellPosition cellPosition = allCells[i];
             PhysicalCell physicalCell = physicalCells[i];
 
-            if (gridWorld.IsTypeInCell(cellPosition, DwellerType.Player)) {
-                if (physicalCell.playerIndicator == null) {
-                    physicalCell.playerIndicator = 
-                        Instantiate(playerIndicator, physicalCell.position);
-                    if (physicalCell.playerEffect != null) {
-                        physicalCell.playerEffect.Play();
-                    }
-                }
-            } else {
-                if (physicalCell.playerIndicator != null) {
-                    Destroy(physicalCell.playerIndicator);
-                    physicalCell.playerIndicator = null;
-                    if (physicalCell.playerEffect != null) {
-                        physicalCell.playerEffect.Stop();
-                    }
-                }
-            }
+			foreach(DwellerInfo generalTypeInfo in dwellerInfoSet) {
+				if (gridWorld.IsTypeInCell(cellPosition, generalTypeInfo.type)) {
+					if (physicalCell.data[generalTypeInfo.type].indicator == null) {
+						physicalCell.data[generalTypeInfo.type].indicator = 
+							Instantiate(generalTypeInfo.indicatorPrefab, physicalCell.position);
+						if (physicalCell.data[generalTypeInfo.type].effect != null) {
+							physicalCell.data[generalTypeInfo.type].effect.Play();
+						}
+					}
+				} else {
+					if (physicalCell.data[generalTypeInfo.type].indicator != null) {
+						Destroy(physicalCell.data[generalTypeInfo.type].indicator);
+						physicalCell.data[generalTypeInfo.type].indicator = null;
+						if (physicalCell.data[generalTypeInfo.type].effect != null) {
+							physicalCell.data[generalTypeInfo.type].effect.Stop();
+						}
+					}
+				}
+			}
 
-            if (gridWorld.IsTypeInCell(cellPosition, DwellerType.Enemy)) {
-                if (physicalCell.enemyIndicator == null) {
-                    physicalCell.enemyIndicator = 
-                        Instantiate(enemyIndicator, physicalCell.position);
-                    if (physicalCell.enemyEffect != null) {
-                        physicalCell.enemyEffect.Play();
-                    }
-                }
-            } else {
-                if (physicalCell.enemyIndicator != null) {
-                    Destroy(physicalCell.enemyIndicator);
-                    physicalCell.enemyIndicator = null;
-                    if (physicalCell.enemyEffect != null) {
-                        physicalCell.enemyEffect.Stop();
-                    }
-                }
-            }
         }
     }
 }
