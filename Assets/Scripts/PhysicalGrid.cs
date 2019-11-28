@@ -130,43 +130,6 @@ public class PhysicalGrid : MonoBehaviour {
 				}
 			}
 
-			/*
-            if (gridWorld.IsTypeInCell(cellPosition, DwellerType.Player)) {
-                if (physicalCell.playerIndicator == null) {
-                    physicalCell.playerIndicator = 
-                        Instantiate(playerIndicator, physicalCell.position);
-                    if (physicalCell.playerEffect != null) {
-                        physicalCell.playerEffect.Play();
-                    }
-                }
-            } else {
-                if (physicalCell.playerIndicator != null) {
-                    Destroy(physicalCell.playerIndicator);
-                    physicalCell.playerIndicator = null;
-                    if (physicalCell.playerEffect != null) {
-                        physicalCell.playerEffect.Stop();
-                    }
-                }
-            }
-
-            if (gridWorld.IsTypeInCell(cellPosition, DwellerType.Enemy)) {
-                if (physicalCell.enemyIndicator == null) {
-                    physicalCell.enemyIndicator = 
-                        Instantiate(enemyIndicator, physicalCell.position);
-                    if (physicalCell.enemyEffect != null) {
-                        physicalCell.enemyEffect.Play();
-                    }
-                }
-            } else {
-                if (physicalCell.enemyIndicator != null) {
-                    Destroy(physicalCell.enemyIndicator);
-                    physicalCell.enemyIndicator = null;
-                    if (physicalCell.enemyEffect != null) {
-                        physicalCell.enemyEffect.Stop();
-                    }
-                }
-            }
-			*/
         }
     }
 }

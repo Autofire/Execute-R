@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour {
@@ -25,10 +26,16 @@ public class EnemyProjectile : MonoBehaviour {
 		//transform.Translate(velocity * Time.deltaTime);
 		//curPos += velocity * Time.deltaTime;
 		transform.position += velocity * Time.deltaTime;
-		if(dweller.GetGridWorld().IsTypeInCell(dweller.GetCurrentCell(), DwellerType.Player)) {
+
+		GridDweller[] contents = dweller.GetGridWorld().CellContents(dweller.GetCurrentCell());
+		GridDweller player = contents.FirstOrDefault((gd) => gd.type == DwellerType.Player);
+
+		//if(dweller.GetGridWorld().IsTypeInCell(dweller.GetCurrentCell(), DwellerType.Player)) {
+		if(player != null) {
 			// TODO: Deduct health.
 			//Debug.Log("HIT THE PLAYER! (TODO: DEDUCT HEALTH)");
 
+			player.GetComponentInParent<Health>().TakeDamage(DamageType.Damage, damage);
 			Destroy(gameObject);
 		}
     }

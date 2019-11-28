@@ -149,6 +149,6 @@ MonoBehaviour:
     optionalEffect: {fileID: 6210243948868946715, guid: e8c2ceee146d918219302d3eccec45f0,
       type: 3}
   - type: 2
-    indicatorPrefab: {fileID: 4781031086883701544, guid: 993895520ab0bb667b46c52eada7ba72,
+    indicatorPrefab: {fileID: 4781031086883701544, guid: 215289277f569bb42b91481390594e73,
       type: 3}
     optionalEffect: {fileID: 0}
