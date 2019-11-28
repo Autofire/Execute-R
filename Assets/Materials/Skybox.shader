@@ -165,7 +165,7 @@ Shader "Custom/Skybox" {
         if (i.texcoord.y > 0.1) {
             half3 texcoord = i.texcoord;
             texcoord /= i.texcoord.y;
-            texcoord /= 5;
+            texcoord /= 4;
             float cloudiness = getCloudiness(texcoord, i.texcoord.y);
             float textValue = getText(texcoord);
             float weakBlur = getWeakBlurredText(texcoord);
@@ -175,7 +175,7 @@ Shader "Custom/Skybox" {
             cloudColor += lerp(0, lerp(_DigitColor, 0, 1 - cloudiness), blurred);
             float textGlow = lerp(textValue, weakBlur, saturate(cloudiness * 2.0));
             half4 skyColor = lerp(_SkyColor, _DigitColor, textGlow);
-            return lerp(skyColor, cloudColor, pow(saturate(cloudiness * 2.0), 1.0));
+            return lerp(skyColor, cloudColor, pow(saturate(cloudiness * 1.8), 1.0));
         } else {
             return _SkyColor;
         }
