@@ -9,6 +9,66 @@ public class PlayerHitEffects : MonoBehaviour
     private PostProcessVolume volume;
     private int layerIndex;
 
+    //Holds settings for effect.
+    private ColorGrading colorGrading;
+
+    //Creates graph in inspector.
+    //Determines how aggressively effect will be applied.
+    public AnimationCurve cgCurve;
+
+    //Profile to use when choosing effect settings.
+    public PostProcessProfile postProfile;
+
+    public GameObject camera;
+
+    private void Start()
+    {
+        //Finds PostProcessing layer to apply effect.
+        //Must have PostProcessing layer added in order for effect to work properly.
+        layerIndex = LayerMask.NameToLayer("PostProcessing");
+        camera.GetComponent<PostProcessLayer>().volumeLayer = LayerMask.GetMask("PostProcessing");
+
+        //Creates color grading effect and sets default settings.
+        colorGrading = ScriptableObject.CreateInstance<ColorGrading>();
+        colorGrading.enabled.Override(false);
+
+        //Creates volume for effect to be applied.
+        volume = PostProcessManager.instance.QuickVolume(layerIndex, 0, colorGrading);
+        volume.isGlobal = true;
+    }
+
+    public void UpdateIntensity()
+    {
+        Debug.Log("Method not working. Vignette not currently working in VR.");
+    }
+
+    //Updates saturation based on current health.
+    public void UpdateSaturation()
+    {
+        int curHealth = gameObject.GetComponent<Health>().GetCurrentHealth();
+        int maxHealth = gameObject.GetComponent<Health>().GetMaxHealth();
+
+        float percentHealth = (float) curHealth / maxHealth;
+        float percentToGrade = -(cgCurve.Evaluate((1 - percentHealth)) * 100);
+
+        if (percentHealth < 1f)
+        {
+            colorGrading.saturation.Override(percentToGrade);
+            colorGrading.enabled.Override(true);
+        }
+        else
+        {
+            colorGrading.enabled.Override(false);
+        }
+    }
+
+
+    //Old code. Currently no way to work in VR.
+    /*
+    //Necessary for creating QuickVolume.
+    private PostProcessVolume volume;
+    private int layerIndex;
+
     //Holds settings for effects.
     private Vignette vignette;
     private ColorGrading colorGrading;
@@ -106,5 +166,5 @@ public class PlayerHitEffects : MonoBehaviour
         {
             colorGrading.enabled.Override(false);
         }
-    }
+    }*/
 }
