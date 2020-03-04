@@ -68,6 +68,7 @@ public class PlayerHitEffects : MonoBehaviour
     //Updates vignette intensity based on current health.
     public void UpdateIntensity()
     {
+		/*
         int curHealth = gameObject.GetComponent<Health>().GetCurrentHealth();
         int maxHealth = gameObject.GetComponent<Health>().GetMaxHealth();
 
@@ -85,6 +86,7 @@ public class PlayerHitEffects : MonoBehaviour
         {
             vignette.enabled.Override(false);
         }
+		*/
     }
     
     //Updates saturation based on current health.
