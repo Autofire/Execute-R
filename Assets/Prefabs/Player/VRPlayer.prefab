@@ -187,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952846816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -2.25}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1012961793}
@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 802871917}
   - component: {fileID: 802871918}
   - component: {fileID: 802871919}
+  - component: {fileID: 4422277523278629385}
   m_Layer: 0
   m_Name: VRPlayer
   m_TagString: Untagged
@@ -827,7 +828,18 @@ MonoBehaviour:
         m_CallState: 2
   deathFeedback:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4422277523278629385}
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &802871918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,6 +925,18 @@ MonoBehaviour:
     m_RotationOrder: 4
   postProfile: {fileID: 11400000, guid: d636885743a63d44a9f6019a36411ea3, type: 2}
   camera: {fileID: 7543888092532446035}
+--- !u!114 &4422277523278629385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7544316358990977711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e14a77aa1233b34e81a8a09c928d0bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5017894377609417866
 PrefabInstance:
   m_ObjectHideFlags: 0
