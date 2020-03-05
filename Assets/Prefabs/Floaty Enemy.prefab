@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 5930165607507149072}
   - component: {fileID: 6459423833361963540}
   - component: {fileID: 7061222007601782647}
+  - component: {fileID: 7750888860502860591}
   m_Layer: 0
   m_Name: Floaty Enemy
   m_TagString: Untagged
@@ -149,6 +150,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7750888860502860591}
+        m_MethodName: DoAdd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6459423833361963540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +190,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathParticle: {fileID: 8948065236471476080, guid: c9784ff412facf74d9030b7f1e248769,
     type: 3}
+--- !u!114 &7750888860502860591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017017156996645198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd479c6fd5207144b806cd523a10427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addend:
+    _useInternal: 1
+    internalValue: 1
+    variable: {fileID: 0}
+  storage:
+    _useInternal: 0
+    internalValue: 0
+    variable: {fileID: 11400000, guid: b920612244f4ea444b598066b04ea36a, type: 2}
 --- !u!1001 &4451151901473294415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -185,6 +217,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 485228358442322109}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 8dcec8ce1488a2fd4b313d2f9f528cb4,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_Basic_Eyes
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8dcec8ce1488a2fd4b313d2f9f528cb4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -245,11 +282,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5ba14d3ea65c5bcb6aaf8b4a30c4f6c3, type: 2}
-    - target: {fileID: -927199367670048503, guid: 8dcec8ce1488a2fd4b313d2f9f528cb4,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy_Basic_Eyes
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dcec8ce1488a2fd4b313d2f9f528cb4, type: 3}
 --- !u!1 &5684745614094602566 stripped
@@ -265,6 +297,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9017017156996645199}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 6dc286164aa71f6beb428a3c05af2936,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_Basic_v2
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 6dc286164aa71f6beb428a3c05af2936,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -325,11 +362,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 85a6b23f712bbfb369a15241b77e0b22, type: 2}
-    - target: {fileID: -927199367670048503, guid: 6dc286164aa71f6beb428a3c05af2936,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy_Basic_v2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dc286164aa71f6beb428a3c05af2936, type: 3}
 --- !u!1 &3522018627164338862 stripped
